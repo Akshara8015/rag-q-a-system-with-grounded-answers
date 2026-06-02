@@ -25,8 +25,8 @@ Pillow
 
 python-dotenv==1.2.2
 
-datasets
-pyarrow
+datasets==2.19.1
+pyarrow==15.0.2
 
 openai
 instructor
