@@ -11,9 +11,9 @@ langchain-groq==1.1.2
 langchain-text-splitters==1.1.2
 langchain-ollama
 
-sentence-transformers
-transformers
-torch
+sentence-transformers==3.0.1
+transformers==4.44.2
+torch==2.4.1
 torchvision
 
 rank-bm25==0.2.2
@@ -33,3 +33,5 @@ instructor
 nest-asyncio
 diskcache
 appdirs
+
+
