@@ -1,5 +1,6 @@
 import os
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
 from .ocr import *
@@ -44,12 +45,18 @@ def load_retriever(file_path: str, chroma_dir: str = "./chroma_db"):
 #           LLM 
 # ==============================
 llm = None
-if groq_api_key:
-    llm = ChatGroq(
-        groq_api_key=groq_api_key,
-        model="llama-3.3-70b-versatile",
-        temperature=0
-    )
+# if groq_api_key:
+    # llm = ChatGroq(
+    #     groq_api_key=groq_api_key,
+    #     model="llama-3.3-70b-versatile",
+    #     temperature=0
+    # )
+
+llm = ChatOpenAI(
+    model="gpt-4o", 
+    api_key="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",
+    temperature=0.7
+)
 
 system_prompt = """
                 You are an expert document question-answering assistant.
