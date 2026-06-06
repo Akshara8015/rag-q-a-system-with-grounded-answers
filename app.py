@@ -33,12 +33,12 @@ def build_llm():
     groq_api_key = get_config_value("GROQ_API_KEY")
     if not groq_api_key:
         raise ValueError(
-            "OPENAI_API_KEY is not configured. Add it to Streamlit secrets or "
+            "GROQ_API_KEY is not configured. Add it to Streamlit secrets or "
             "your deployment environment variables."
         )
 
-    return ChatOpenAI(
-        model=get_config_value("OPENAI_MODEL", "gpt-4o-mini"),
+    return ChatGroq(
+        model="qwen/qwen3-32b",
         api_key=groq_api_key,
         temperature=0.7,
     )
@@ -307,7 +307,7 @@ if st.session_state.retriever is None:
         ### 🔧 Technology
         - RAG Pipeline
         - Embedding Models
-        - OpenAI chat model
+        - Groq chat model
         - Chroma DB
         """)
 else:
@@ -441,7 +441,7 @@ else:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; padding: 2rem; color: #666;">
-    <p>🚀 Powered by Hybrid RAG | OpenAI | Chroma DB</p>
+    <p>🚀 Powered by Hybrid RAG | GROQ | Chroma DB</p>
     <p style="font-size: 0.9rem; opacity: 0.7;">Built for Enterprise Document Intelligence</p>
 </div>
 """, unsafe_allow_html=True)
