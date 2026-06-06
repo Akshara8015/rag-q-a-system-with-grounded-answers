@@ -1,10 +1,14 @@
 import os
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
 from .ocr import *
 from .HybridRetriever import *
 from .utils import *
+
+
+load_dotenv()
 
 
 def get_config_value(name: str, default: str = ""):
@@ -139,4 +143,3 @@ if __name__ == "__main__":
 #     # simple local test
 #     sample_context = "[Page 2]\nBM25 is a ranking function used by search engines to estimate relevance."
 #     print(answer_query("What is BM25?", sample_context))
-
