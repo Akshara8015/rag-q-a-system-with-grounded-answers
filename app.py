@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import hashlib
 from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from rag.ocr import extract_text_from_pdf
 from rag.HybridRetriever import HybridRetriever
@@ -344,9 +345,10 @@ else:
                     raise ValueError("No retriever available. Please upload a PDF first.")
 
                 # Initialize LLM
-                llm = ChatOllama(
-                    model="mistral",
-                    temperature=0
+                llm = ChatOpenAI(
+                    model="gpt-4o", 
+                    api_key="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",
+                    temperature=0.7
                 )
                 
                 # Retrieve final chunks through HybridRetriever.retrieve()
