@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import hashlib
 from dotenv import load_dotenv
+from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from rag.ocr import extract_text_from_pdf
@@ -29,8 +30,8 @@ def collection_name_for_upload(uploaded_file_id):
 
 
 def build_llm():
-    openai_api_key = get_config_value("OPENAI_API_KEY")
-    if not openai_api_key:
+    groq_api_key = get_config_value("GROQ_API_KEY")
+    if not groq_api_key:
         raise ValueError(
             "OPENAI_API_KEY is not configured. Add it to Streamlit secrets or "
             "your deployment environment variables."
@@ -38,7 +39,7 @@ def build_llm():
 
     return ChatOpenAI(
         model=get_config_value("OPENAI_MODEL", "gpt-4o-mini"),
-        api_key=openai_api_key,
+        api_key=groq_api_key,
         temperature=0.7,
     )
 
