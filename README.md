@@ -1,6 +1,6 @@
 # Enterprise Document Intelligence
 
-Streamlit app for uploading PDFs and asking grounded questions using hybrid retrieval, Chroma Cloud, and OpenAI.
+Streamlit app for uploading PDFs and asking grounded questions using hybrid retrieval, Chroma Cloud, and Groq.
 
 ## Run Locally
 
@@ -15,8 +15,8 @@ streamlit run app.py
 Add these values to `.env` for local development:
 
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o-mini
+groq_API_KEY=your_groq_api_key_here
+groq_MODEL=gpt-4o-mini
 CHROMA_API_KEY=your_chroma_api_key_here
 CHROMA_TENANT=your_chroma_tenant_here
 CHROMA_DATABASE=your_chroma_database_here
