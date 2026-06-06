@@ -1,10 +1,14 @@
 import streamlit as st
 import os
 import hashlib
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from rag.ocr import extract_text_from_pdf
 from rag.HybridRetriever import HybridRetriever
+
+
+load_dotenv()
 
 
 def get_config_value(name, default=""):
