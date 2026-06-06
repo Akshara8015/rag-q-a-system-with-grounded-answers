@@ -1,5 +1,4 @@
 import os
-from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
@@ -19,9 +18,6 @@ def get_config_value(name: str, default: str = ""):
         return st.secrets.get(name, default)
     except Exception:
         return default
-
-
-groq_api_key = get_config_value("GROQ_API_KEY")
 
 # ==============================
 # Load Vector Store + Retriever
@@ -44,19 +40,19 @@ def load_retriever(file_path: str, chroma_dir: str = "./chroma_db"):
 # ==============================
 #           LLM 
 # ==============================
-llm = None
-# if groq_api_key:
-    # llm = ChatGroq(
-    #     groq_api_key=groq_api_key,
-    #     model="llama-3.3-70b-versatile",
-    #     temperature=0
-    # )
+def build_llm():
+    openai_api_key = get_config_value("OPENAI_API_KEY")
+    if not openai_api_key:
+        return None
 
-llm = ChatOpenAI(
-    model="gpt-4o", 
-    api_key="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",
-    temperature=0.7
-)
+    return ChatOpenAI(
+        model=get_config_value("OPENAI_MODEL", "gpt-4o-mini"),
+        api_key=openai_api_key,
+        temperature=0.7,
+    )
+
+
+llm = build_llm()
 
 system_prompt = """
                 You are an expert document question-answering assistant.
@@ -143,7 +139,4 @@ if __name__ == "__main__":
 #     # simple local test
 #     sample_context = "[Page 2]\nBM25 is a ranking function used by search engines to estimate relevance."
 #     print(answer_query("What is BM25?", sample_context))
-
-
-
 
