@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 
 from .ocr import *
@@ -45,13 +46,13 @@ def load_retriever(file_path: str, chroma_dir: str = "./chroma_db"):
 #           LLM 
 # ==============================
 def build_llm():
-    openai_api_key = get_config_value("OPENAI_API_KEY")
-    if not openai_api_key:
+    groq_api_key = get_config_value("GROQ_API_KEY")
+    if not groq_api_key:
         return None
 
-    return ChatOpenAI(
-        model=get_config_value("OPENAI_MODEL", "gpt-4o-mini"),
-        api_key=openai_api_key,
+    return ChatGroq(
+        model="qwen/qwen3-32b",
+        api_key=groq_api_key,
         temperature=0.7,
     )
 
