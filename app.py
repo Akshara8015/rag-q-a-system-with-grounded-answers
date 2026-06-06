@@ -1,7 +1,6 @@
 import streamlit as st
 import os
 import hashlib
-from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from rag.ocr import extract_text_from_pdf
@@ -23,6 +22,21 @@ def collection_name_for_upload(uploaded_file_id):
     digest = hashlib.sha1(uploaded_file_id.encode("utf-8")).hexdigest()[:16]
     prefix = get_config_value("CHROMA_COLLECTION_PREFIX", "document_chunks")
     return f"{prefix}_{digest}"
+
+
+def build_llm():
+    openai_api_key = get_config_value("OPENAI_API_KEY")
+    if not openai_api_key:
+        raise ValueError(
+            "OPENAI_API_KEY is not configured. Add it to Streamlit secrets or "
+            "your deployment environment variables."
+        )
+
+    return ChatOpenAI(
+        model=get_config_value("OPENAI_MODEL", "gpt-4o-mini"),
+        api_key=openai_api_key,
+        temperature=0.7,
+    )
 
 # Page configuration
 st.set_page_config(
@@ -288,7 +302,7 @@ if st.session_state.retriever is None:
         ### 🔧 Technology
         - RAG Pipeline
         - Embedding Models
-        - Mistral Ollama model
+        - OpenAI chat model
         - Chroma DB
         """)
 else:
@@ -344,12 +358,8 @@ else:
                 if st.session_state.retriever is None:
                     raise ValueError("No retriever available. Please upload a PDF first.")
 
-                # Initialize LLM
-                llm = ChatOpenAI(
-                    model="gpt-4o", 
-                    api_key="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",
-                    temperature=0.7
-                )
+                # Initialize LLM from deployment secrets/environment.
+                llm = build_llm()
                 
                 # Retrieve final chunks through HybridRetriever.retrieve()
                 final_chunks = st.session_state.retriever.retrieve(user_query, final_k=5)
@@ -426,9 +436,7 @@ else:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; padding: 2rem; color: #666;">
-    <p>🚀 Powered by Hybrid RAG | LLaMA 3.3 | Chroma DB</p>
+    <p>🚀 Powered by Hybrid RAG | OpenAI | Chroma DB</p>
     <p style="font-size: 0.9rem; opacity: 0.7;">Built for Enterprise Document Intelligence</p>
 </div>
 """, unsafe_allow_html=True)
-
-
